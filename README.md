@@ -1,2 +1,4 @@
 # DA_Portfolio
-This repository is a place for the projects I completed as part of my Bachelor's of Science in Data Analytics at Miami Dade College. I plan to have continuous  improvement by working on more diverse issues to show my passion for Data Science.
+Please view my portfolio website at: https://bit.ly/frank-rodriguez
+
+This is a repository with projects that I completed while completing my Bachelor's of Science in Miami Dade College Data Analytics program. I plan to continue past my studies and hopefully add more diverse projects to show my range and enthusiasm for continuous growth in the field of Data Science.
