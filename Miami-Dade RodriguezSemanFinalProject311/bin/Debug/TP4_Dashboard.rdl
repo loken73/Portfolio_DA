@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Subreport Name="Subreport1">
+            <ReportName>TP1_Pie_Chart_Ticket_Count</ReportName>
+            <Top>0.06944in</Top>
+            <Left>1.38542in</Left>
+            <Height>4.51958in</Height>
+            <Width>4.98833in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport2">
+            <ReportName>TP2_Bar_Graph_Completion_Time</ReportName>
+            <Top>0.06944in</Top>
+            <Left>6.37375in</Left>
+            <Height>4.51958in</Height>
+            <Width>5.50125in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+          <Subreport Name="Subreport3">
+            <ReportName>TP3_Line_Chart_Monthly _Emrgncy_Tckts</ReportName>
+            <Top>4.59944in</Top>
+            <Left>1.38542in</Left>
+            <Height>3in</Height>
+            <Width>10.48958in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Subreport>
+        </ReportItems>
+        <Height>7.59944in</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>13.17708in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0.68625in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value xml:space="preserve">   </Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>    Ticket Priority Analysis Dashboard</Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>20pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>0.01958in</Top>
+              <Left>1.38542in</Left>
+              <Height>0.63889in</Height>
+              <Width>9.79166in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Image Name="Image1">
+              <Source>Embedded</Source>
+              <Value>index</Value>
+              <Sizing>FitProportional</Sizing>
+              <ActionInfo>
+                <Actions>
+                  <Action>
+                    <Drillthrough>
+                      <ReportName>MenuPage</ReportName>
+                    </Drillthrough>
+                  </Action>
+                </Actions>
+              </ActionInfo>
+              <Left>11.21875in</Left>
+              <Height>0.63069in</Height>
+              <Width>0.65625in</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Image>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageHeight>8.5in</PageHeight>
+        <PageWidth>11in</PageWidth>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="index">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>597b9528-0748-441b-9937-c246fcd2ee08</rd:ReportID>
+</Report>

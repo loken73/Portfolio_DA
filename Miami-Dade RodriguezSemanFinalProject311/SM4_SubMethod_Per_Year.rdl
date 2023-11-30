@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Shared">
+      <DataSourceReference>Miami311</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>2465880e-2f9a-4dba-af81-9d08e65a8114</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="SubMethodPerYear">
+      <Query>
+        <DataSourceName>Shared</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Submission">
+            <Value>=Parameters!Submission.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@Year">
+            <Value>=Parameters!Year.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT ticket_year, department, method_received AS Submission_Method, COUNT(method_received) AS Submission_Count
+FROM dbo.Miami311
+WHERE method_received = @Submission AND ticket_year = @Year
+GROUP BY ticket_year, department, method_received</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ticket_year">
+          <DataField>ticket_year</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="department">
+          <DataField>department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Submission_Method">
+          <DataField>Submission_Method</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Submission_Count">
+          <DataField>Submission_Count</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="SubMethodParam">
+      <Query>
+        <DataSourceName>Shared</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Year">
+            <Value>=Parameters!Year.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT DISTINCT method_received
+FROM dbo.Miami311
+WHERE ticket_year = @Year
+ORDER BY method_received</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="method_received">
+          <DataField>method_received</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="YearParam">
+      <SharedDataSet>
+        <SharedDataSetReference>YearParameter</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="Year">
+          <DataField>Year</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Chart Name="Chart1">
+            <ChartCategoryHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Group Name="Chart1_CategoryGroup">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!department.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!department.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <Label>=Fields!department.Value</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartCategoryHierarchy>
+            <ChartSeriesHierarchy>
+              <ChartMembers>
+                <ChartMember>
+                  <Label>Submission Count</Label>
+                </ChartMember>
+              </ChartMembers>
+            </ChartSeriesHierarchy>
+            <ChartData>
+              <ChartSeriesCollection>
+                <ChartSeries Name="Submission_Count">
+                  <ChartDataPoints>
+                    <ChartDataPoint>
+                      <ChartDataPointValues>
+                        <Y>=Sum(Fields!Submission_Count.Value)</Y>
+                      </ChartDataPointValues>
+                      <ChartDataLabel>
+                        <Style />
+                        <UseValueAsLabel>true</UseValueAsLabel>
+                        <Visible>true</Visible>
+                      </ChartDataLabel>
+                      <Style />
+                      <ChartMarker>
+                        <Style />
+                      </ChartMarker>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </ChartDataPoint>
+                  </ChartDataPoints>
+                  <Style />
+                  <ChartEmptyPoints>
+                    <Style />
+                    <ChartMarker>
+                      <Style />
+                    </ChartMarker>
+                    <ChartDataLabel>
+                      <Style />
+                    </ChartDataLabel>
+                  </ChartEmptyPoints>
+                  <ValueAxisName>Primary</ValueAxisName>
+                  <CategoryAxisName>Primary</CategoryAxisName>
+                  <ChartSmartLabel>
+                    <CalloutLineColor>Black</CalloutLineColor>
+                    <MinMovingDistance>0pt</MinMovingDistance>
+                  </ChartSmartLabel>
+                </ChartSeries>
+              </ChartSeriesCollection>
+            </ChartData>
+            <ChartAreas>
+              <ChartArea Name="Default">
+                <ChartCategoryAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <Interval>1</Interval>
+                    <ChartMajorGridLines>
+                      <Enabled>False</Enabled>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <Angle>45</Angle>
+                    <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                  <ChartAxis Name="Secondary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Enabled>False</Enabled>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Location>Opposite</Location>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                </ChartCategoryAxes>
+                <ChartValueAxes>
+                  <ChartAxis Name="Primary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                  <ChartAxis Name="Secondary">
+                    <Style>
+                      <Border>
+                        <Color>Gainsboro</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <FontSize>8pt</FontSize>
+                      <Color>#5c5c5c</Color>
+                    </Style>
+                    <ChartAxisTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>9pt</FontSize>
+                        <Color>#5c5c5c</Color>
+                      </Style>
+                    </ChartAxisTitle>
+                    <ChartMajorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                    </ChartMajorGridLines>
+                    <ChartMinorGridLines>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>Dotted</Style>
+                        </Border>
+                      </Style>
+                    </ChartMinorGridLines>
+                    <ChartMajorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </ChartMajorTickMarks>
+                    <ChartMinorTickMarks>
+                      <Style>
+                        <Border>
+                          <Color>Gainsboro</Color>
+                        </Border>
+                      </Style>
+                      <Length>0.5</Length>
+                    </ChartMinorTickMarks>
+                    <CrossAt>NaN</CrossAt>
+                    <Location>Opposite</Location>
+                    <Minimum>NaN</Minimum>
+                    <Maximum>NaN</Maximum>
+                    <ChartAxisScaleBreak>
+                      <Style />
+                    </ChartAxisScaleBreak>
+                  </ChartAxis>
+                </ChartValueAxes>
+                <Style>
+                  <BackgroundColor>#00ffffff</BackgroundColor>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                </Style>
+              </ChartArea>
+            </ChartAreas>
+            <ChartLegends>
+              <ChartLegend Name="Default">
+                <Style>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontSize>8pt</FontSize>
+                </Style>
+                <Position>TopLeft</Position>
+                <ChartLegendTitle>
+                  <Caption />
+                  <Style>
+                    <FontSize>8pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </ChartLegendTitle>
+                <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+                <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+              </ChartLegend>
+            </ChartLegends>
+            <ChartTitles>
+              <ChartTitle Name="Default">
+                <Caption>=Parameters!Submission.Value &amp; " Submissions " &amp; "for Year " &amp; Parameters!Year.Value</Caption>
+                <Style>
+                  <BackgroundGradientType>None</BackgroundGradientType>
+                  <FontSize>16pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <TextAlign>Left</TextAlign>
+                  <VerticalAlign>Top</VerticalAlign>
+                </Style>
+              </ChartTitle>
+            </ChartTitles>
+            <Palette>Pacific</Palette>
+            <ChartBorderSkin>
+              <Style>
+                <BackgroundColor>Gray</BackgroundColor>
+                <BackgroundGradientType>None</BackgroundGradientType>
+                <Color>White</Color>
+              </Style>
+            </ChartBorderSkin>
+            <ChartNoDataMessage Name="NoDataMessage">
+              <Caption>No Data Available</Caption>
+              <Style>
+                <BackgroundGradientType>None</BackgroundGradientType>
+                <FontWeight>Bold</FontWeight>
+                <TextAlign>General</TextAlign>
+                <VerticalAlign>Top</VerticalAlign>
+              </Style>
+            </ChartNoDataMessage>
+            <DataSetName>SubMethodPerYear</DataSetName>
+            <Top>0.35292in</Top>
+            <Left>0.37375in</Left>
+            <Height>5.57292in</Height>
+            <Width>14.58333in</Width>
+            <Style>
+              <Border>
+                <Color>LightGrey</Color>
+                <Style>None</Style>
+              </Border>
+              <BackgroundColor>White</BackgroundColor>
+              <BackgroundGradientType>None</BackgroundGradientType>
+            </Style>
+          </Chart>
+          <Image Name="Image1">
+            <Source>Embedded</Source>
+            <Value>index</Value>
+            <Sizing>FitProportional</Sizing>
+            <ActionInfo>
+              <Actions>
+                <Action>
+                  <Drillthrough>
+                    <ReportName>SM2_SubMethod_Ticket_Year_Department</ReportName>
+                    <Parameters>
+                      <Parameter Name="Submission">
+                        <Value>=Parameters!Submission.Value</Value>
+                      </Parameter>
+                    </Parameters>
+                  </Drillthrough>
+                </Action>
+              </Actions>
+            </ActionInfo>
+            <Top>0.35292in</Top>
+            <Left>15.07167in</Left>
+            <Height>0.5in</Height>
+            <Width>0.5in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <Height>6.66542in</Height>
+        <Style />
+      </Body>
+      <Width>15.86333in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="Year">
+      <DataType>String</DataType>
+      <Prompt>Year: </Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>YearParam</DataSetName>
+          <ValueField>Year</ValueField>
+          <LabelField>Year</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="Submission">
+      <DataType>String</DataType>
+      <Prompt>Submission Method: </Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>SubMethodParam</DataSetName>
+          <ValueField>method_received</ValueField>
+          <LabelField>method_received</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Submission</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Year</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="index">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>bb4cbaa2-6958-4f5f-a817-43afd7b95a06</rd:ReportID>
+</Report>

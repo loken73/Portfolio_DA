@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="SharedDS">
+      <DataSourceReference>Miami311</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>f579a3d7-edfd-42bc-96ea-1825bbae9e52</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="YearlyIssues">
+      <Query>
+        <DataSourceName>SharedDS</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Department">
+            <Value>=Parameters!Department.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT  Department, issue_type, COUNT(issue_type) AS IssueCount, YEAR(ticket_created_date) AS Year
+FROM dbo.Miami311
+WHERE Department = @Department
+GROUP BY YEAR(ticket_created_date), Department, issue_type
+ORDER BY YEAR(ticket_created_date) ASC, COUNT(issue_type) DESC</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Department">
+          <DataField>Department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="issue_type">
+          <DataField>issue_type</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="IssueCount">
+          <DataField>IssueCount</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Year">
+          <DataField>Year</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="DepartmentParameter">
+      <SharedDataSet>
+        <SharedDataSetReference>DepartmentParameter</SharedDataSetReference>
+      </SharedDataSet>
+      <Fields>
+        <Field Name="Department">
+          <DataField>Department</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.58333in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>2.4375in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.41146in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Issue</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Number of Issues</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox28">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox28</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGreen</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="IssueCount1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!IssueCount.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>IssueCount1</rd:DefaultName>
+                          <ActionInfo>
+                            <Actions>
+                              <Action>
+                                <Drillthrough>
+                                  <ReportName>DepartIssuePerYear</ReportName>
+                                  <Parameters>
+                                    <Parameter Name="Department">
+                                      <Value>=Fields!Department.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="Year">
+                                      <Value>=Fields!Year.Value</Value>
+                                    </Parameter>
+                                  </Parameters>
+                                </Drillthrough>
+                              </Action>
+                            </Actions>
+                          </ActionInfo>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>LightGreen</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.41146in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="issue_type">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!issue_type.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>issue_type</rd:DefaultName>
+                          <ActionInfo>
+                            <Actions>
+                              <Action>
+                                <Drillthrough>
+                                  <ReportName>IssueYearlyTrend</ReportName>
+                                  <Parameters>
+                                    <Parameter Name="Department">
+                                      <Value>=Fields!Department.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="IssueType">
+                                      <Value>=Fields!issue_type.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="Year">
+                                      <Value>=Fields!Year.Value</Value>
+                                    </Parameter>
+                                  </Parameters>
+                                </Drillthrough>
+                              </Action>
+                            </Actions>
+                          </ActionInfo>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="IssueCount">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!IssueCount.Value</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>IssueCount</rd:DefaultName>
+                          <ActionInfo>
+                            <Actions>
+                              <Action>
+                                <Drillthrough>
+                                  <ReportName>IssueYearlyTrend</ReportName>
+                                  <Parameters>
+                                    <Parameter Name="Year">
+                                      <Value>=Fields!Year.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="Department">
+                                      <Value>=Fields!Department.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="IssueType">
+                                      <Value>=Fields!issue_type.Value</Value>
+                                    </Parameter>
+                                  </Parameters>
+                                </Drillthrough>
+                              </Action>
+                            </Actions>
+                          </ActionInfo>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>1in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox25">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Year</Value>
+                                <Style>
+                                  <FontFamily>Arial</FontFamily>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox25</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Year">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Year.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Year.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>1in</Size>
+                    <CellContents>
+                      <Textbox Name="Year">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!Year.Value</Value>
+                                <Style>
+                                  <FontFamily>Arial</FontFamily>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Year</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightGreen</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <KeepWithGroup>After</KeepWithGroup>
+                    </TablixMember>
+                    <TablixMember>
+                      <Group Name="Details" />
+                      <Visibility>
+                        <Hidden>true</Hidden>
+                        <ToggleItem>Year</ToggleItem>
+                      </Visibility>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>YearlyIssues</DataSetName>
+            <Top>0.51958in</Top>
+            <Left>0.53in</Left>
+            <Height>1.07292in</Height>
+            <Width>6.02083in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+          <Image Name="Image2">
+            <Source>Embedded</Source>
+            <Value>returnbutton</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>0.51958in</Top>
+            <Left>7.08208in</Left>
+            <Height>0.5in</Height>
+            <Width>0.5in</Width>
+            <ZIndex>1</ZIndex>
+            <ToolTip>Return</ToolTip>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <Height>3.54167in</Height>
+        <Style />
+      </Body>
+      <Width>8.15625in</Width>
+      <Page>
+        <LeftMargin>1in</LeftMargin>
+        <RightMargin>1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="Department">
+      <DataType>String</DataType>
+      <Prompt>Department</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>DepartmentParameter</DataSetName>
+          <ValueField>Department</ValueField>
+          <LabelField>Department</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>Department</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="returnbutton">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>02cc1b66-36b6-4396-aa08-09ec311f25a5</rd:ReportID>
+</Report>
